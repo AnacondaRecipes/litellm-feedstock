@@ -1,30 +1,32 @@
 {% set name = "litellm" %}
-{% set version = "1.52.9" %}
+{% set version = "1.43.3" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/litellm-{{ version }}.tar.gz
-  sha256: 73a05fed76cfac4357ee4117f28608209db891223fb9c6e03dddfe1723666437
+  url: https://github.com/BerriAI/{{ name }}/archive/refs/tags/v{{ version }}.tar.gz
+  sha256: e0c8c89cd6ad678bbe6cbbca4541cfed42b1224107c93d0e99981e455e85cf70
+  patches:
+    - fix_tests.patch
 
 build:
   entry_points:
     - litellm = litellm:run_server
-  noarch: python
+  skip: true # [py<38]
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   number: 0
 
 requirements:
   host:
-    - python >=3.8
+    - python
     - poetry-core
     - wheel
     - pip
   run:
-    - python >=3.8.1,<4.0,!=3.9.7
-    - openai >=1.54.0
+    - python
+    - openai >=1.40.0
     - python-dotenv >=0.2.0
     - tiktoken >=0.7.0
     - importlib-metadata >=6.8.0
@@ -38,7 +40,8 @@ requirements:
   run_constrained:
     - uvicorn >=0.22.0,<0.23.0
     - gunicorn >=22.0.0,<23.0.0
-    - fastapi >=0.111.0,<1.0.0
+    # Using newer version for tests (0.116.1)
+    # - fastapi >=0.111.0,<0.112.0
     - backoff *
     - pyyaml >=6.0.1,<7.0.0
     - rq *
@@ -47,28 +50,166 @@ requirements:
     - fastapi-sso >=0.10.0,<0.11.0
     - PyJWT >=2.8.0,<3.0.0
     - python-multipart >=0.0.9,<0.0.10
-    - cryptography 42.0.5
-    - prisma >=0.11.0,<0.12.0
+    - cryptography >=42.0.5,<43.0.0 # [py<313]
+    - prisma 0.11.0
     - azure-identity >=1.15.0,<2.0.0
     - azure-keyvault-secrets >=4.8.0,<5.0.0
     - google-cloud-kms >=2.21.3,<3.0.0
-    - resend >=0.8.0,<1.0.0
+    - resend >=0.8.0,<0.9.0
     - pynacl >=1.5.0,<2.0.0
 
+#All of these tests require credentials for their action or packages which are not available for now
+{% set deselect_tests=[
+  "--deselect=litellm/tests/test_completion_cost.py::test_completion_azure_ai",
+  "--deselect=litellm/tests/test_completion_cost.py::test_completion_cost_deepseek",
+  "--deselect=litellm/tests/test_completion_cost.py::test_cost_azure_embedding",
+  "--deselect=litellm/tests/test_optional_params.py::test_supports_system_message",
+  "--deselect=litellm/tests/test_python_38.py::test_litellm_proxy_server_config_no_general_settings",
+  "--deselect=litellm/tests/test_lowest_cost_routing.py::test_lowest_cost_routing",
+  "--deselect=litellm/tests/test_dynamic_rate_limit_handler.py::test_priority_reservation",
+  "--deselect=litellm/tests/test_token_counter.py::test_encoding_and_decoding",
+  "--deselect=litellm/tests/test_anthropic_completion.py::test_anthropic_router_completion_e2e",
+  "--deselect=litellm/tests/test_prompt_injection_detection.py::test_prompt_injection_llm_eval",
+  "--deselect=litellm/tests/test_router_cooldowns.py::test_cooldown_badrequest_error",
+  "--deselect=litellm/tests/test_token_counter.py::test_tokenizers",
+  "--ignore=litellm/tests/test_acooldowns_router.py",
+  "--ignore=litellm/tests/test_exceptions.py",
+  "--ignore=litellm/tests/test_alerting.py",
+  "--ignore=litellm/tests/test_add_function_to_prompt.py",
+  "--ignore=litellm/tests/test_alangfuse.py",
+  "--ignore=litellm/tests/test_amazing_vertex_completion.py",
+  "--ignore=litellm/tests/test_aproxy_startup.py",
+  "--ignore=litellm/tests/test_arize_ai.py",
+  "--ignore=litellm/tests/test_assistants.py",
+  "--ignore=litellm/tests/test_async_fn.py",
+  "--ignore=litellm/tests/test_audio_speech.py",
+  "--ignore=litellm/tests/test_azure_perf.py",
+  "--ignore=litellm/tests/test_batch_completions.py",
+  "--ignore=litellm/tests/test_bedrock_completion.py",
+  "--ignore=litellm/tests/test_blocked_user_list.py",
+  "--ignore=litellm/tests/test_braintrust.py",
+  "--ignore=litellm/tests/test_caching.py",
+  "--ignore=litellm/tests/test_caching_ssl.py",
+  "--ignore=litellm/tests/test_cohere_completion.py",
+  "--ignore=litellm/tests/test_completion.py",
+  "--ignore=litellm/tests/test_config.py",
+  "--ignore=litellm/tests/test_cost_calc.py",
+  "--ignore=litellm/tests/test_custom_callback_input.py",
+  "--ignore=litellm/tests/test_custom_callback_router.py",
+  "--ignore=litellm/tests/test_custom_logger.py",
+  "--ignore=litellm/tests/test_embedding.py",
+  "--ignore=litellm/tests/test_fine_tuning_api.py",
+  "--ignore=litellm/tests/test_function_calling.py",
+  "--ignore=litellm/tests/test_function_call_parsing.py",
+  "--ignore=litellm/tests/test_gcs_bucket.py",
+  "--ignore=litellm/tests/test_guardrails_config.py",
+  "--ignore=litellm/tests/test_health_check.py",
+  "--ignore=litellm/tests/test_image_generation.py",
+  "--ignore=litellm/tests/test_jwt.py",
+  "--ignore=litellm/tests/test_key_generate_prisma.py",
+  "--ignore=litellm/tests/test_lakera_ai_prompt_injection.py",
+  "--ignore=litellm/tests/test_langsmith.py",
+  "--ignore=litellm/tests/test_least_busy_routing.py",
+  "--ignore=litellm/tests/test_lowest_latency_routing.py",
+  "--ignore=litellm/tests/test_lunary.py",
+  "--ignore=litellm/tests/test_model_alias_map.py",
+  "--ignore=litellm/tests/test_multiple_deployments.py",
+  "--ignore=litellm/tests/test_openai_batches_and_files.py",
+  "--ignore=litellm/tests/test_openai_moderations_hook.py",
+  "--ignore=litellm/tests/test_pass_through_endpoints.py",
+  "--ignore=litellm/tests/test_parallel_request_limiter.py",
+  "--ignore=litellm/tests/test_rules.py",
+  "--ignore=litellm/tests/test_tpm_rpm_routing_v2.py",
+  "--ignore=litellm/tests/test_router_max_parallel_requests.py",
+  "--ignore=litellm/tests/test_prometheus_service.py",
+  "--ignore=litellm/tests/test_proxy_custom_auth.py",
+  "--ignore=litellm/tests/test_proxy_custom_logger.py",
+  "--ignore=litellm/tests/test_proxy_encrypt_decrypt.py",
+  "--ignore=litellm/tests/test_proxy_exception_mapping.py",
+  "--ignore=litellm/tests/test_proxy_pass_user_config.py",
+  "--ignore=litellm/tests/test_proxy_server.py",
+  "--ignore=litellm/tests/test_proxy_setting_guardrails.py",
+  "--ignore=litellm/tests/test_proxy_token_counter.py",
+  "--ignore=litellm/tests/test_register_model.py",
+  "--ignore=litellm/tests/test_router.py",
+  "--ignore=litellm/tests/test_router_batch_completion.py",
+  "--ignore=litellm/tests/test_router_caching.py",
+  "--ignore=litellm/tests/test_router_client_init.py",
+  "--ignore=litellm/tests/test_router_debug_logs.py",
+  "--ignore=litellm/tests/test_router_fallbacks.py",
+  "--ignore=litellm/tests/test_router_get_deployments.py",
+  "--ignore=litellm/tests/test_router_init.py",
+  "--ignore=litellm/tests/test_router_retries.py",
+  "--ignore=litellm/tests/test_router_policy_violation.py",
+  "--ignore=litellm/tests/test_router_timeout.py",
+  "--ignore=litellm/tests/test_router_utils.py",
+  "--ignore=litellm/tests/test_secret_detect_hook.py",
+  "--ignore=litellm/tests/test_simple_shuffle.py",
+  "--ignore=litellm/tests/test_stream_chunk_builder.py",
+  "--ignore=litellm/tests/test_streaming.py",
+  "--ignore=litellm/tests/test_text_completion.py",
+  "--ignore=litellm/tests/test_timeout.py",
+  "--ignore=litellm/tests/test_traceloop.py",
+  "--ignore=litellm/tests/test_update_spend.py",
+  "--ignore=litellm/tests/test_utils.py",
+  "--ignore=litellm/tests/test_whisper.py",
+]%}
+
 test:
+  source_files:
+    - pyproject.toml
+    - litellm/tests
   imports:
     - litellm
+    - litellm.proxy
+    - litellm.proxy.hooks
+    - litellm.llms
   commands:
     - pip check
     - litellm --help
+    - export OPENAI_API_VERSION=1.40.0 # [not win]
+    - export AZURE_OPENAI_API_KEY=dump_key # [not win]
+    - export OPENAI_API_KEY=dump_key # [not win]
+    - set OPENAI_API_VERSION=1.40.0 # [win]
+    - set AZURE_OPENAI_API_KEY=dump_key # [win]
+    - set OPENAI_API_KEY=dump_key # [win]
+    - pytest -vvv {{ deselect_tests | join(" ") }} --ignore=litellm/tests/test_provider_specific_config.py # [py313]
+    - pytest -vvv {{ deselect_tests | join(" ") }} # [py<313]
   requires:
     - pip
+    - pytest
+    - pytest-asyncio
+    - pytest-mock
+    - boto3
+    - redis
+    - fastapi
+    - apscheduler
+    - cryptography # [py<313]
+    - orjson
+    - PyJWT
+    - python-multipart
+    - opentelemetry-api
+    - opentelemetry-sdk
+    - opentelemetry-exporter-otlp
+    - backoff
+    - anthropic
+    - tenacity
+    - google-cloud-storage
+    - google-auth
 
 about:
   summary: Library to easily interface with LLM API providers
   home: https://github.com/BerriAI/litellm
   license: MIT
   license_file: LICENSE
+  license_family: MIT
+  description: |
+    Translate inputs to provider's completion, embedding, and image_generation endpoints
+    Consistent output, text responses will always be available at ['choices'][0]['message']['content']
+    Retry/fallback logic across multiple deployments (e.g. Azure/OpenAI) - Router
+    Track spend & set budgets per project LiteLLM Proxy Server
+  dev_url: https://github.com/BerriAI/litellm
+  doc_url: https://docs.litellm.ai/docs
 
 extra:
   recipe-maintainers:
