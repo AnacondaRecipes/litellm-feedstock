@@ -1,10 +1,10 @@
 @echo off
 
-%PYTHON% -c "import shutil; from pathlib import Path; ent = Path('litellm/proxy/enterprise'); shutil.rmtree(ent, ignore_errors=True) if ent.exists() else None; print(f'Removed: {ent}' if not ent.exists() else f'Failed to remove: {ent}')"
+REM Use Python with proper symlink removal
+%PYTHON% -c "from pathlib import Path; import os; p = Path('litellm/proxy/enterprise'); p.unlink() if p.is_symlink() else (p.rmdir() if p.is_dir() and not list(p.iterdir()) else None); print(f'Removed symlink: {p}' if not p.exists() else f'ERROR: Still exists: {p}')"
 
 if exist "%SRC_DIR%\litellm\proxy\enterprise" (
-    echo ERROR: enterprise directory still exists after deletion attempt
-    dir "%SRC_DIR%\litellm\proxy"
+    echo FATAL: Symlink still exists
     exit /b 1
 )
 
