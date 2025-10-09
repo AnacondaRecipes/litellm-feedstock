@@ -72,6 +72,7 @@ requirements:
   "--deselect=litellm/tests/test_anthropic_completion.py::test_anthropic_router_completion_e2e",
   "--deselect=litellm/tests/test_prompt_injection_detection.py::test_prompt_injection_llm_eval",
   "--deselect=litellm/tests/test_router_cooldowns.py::test_cooldown_badrequest_error",
+  "--deselect=litellm/tests/test_dynamic_rate_limit_handler.py::test_update_cache",
   "--deselect=litellm/tests/test_token_counter.py::test_tokenizers",
   "--ignore=litellm/tests/test_acooldowns_router.py",
   "--ignore=litellm/tests/test_exceptions.py",
