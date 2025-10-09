@@ -16,9 +16,7 @@ build:
   entry_points:
     - litellm = litellm:run_server
   skip: true # [py<38]
-  script:
-    - if exist litellm\proxy\enterprise rd /s /q litellm\proxy\enterprise  # [win]
-    - {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation # [not win]
   number: 0
 
 requirements:
