@@ -1,0 +1,91 @@
+diff --git a/litellm/tests/test_banned_keyword_list.py b/litellm/tests/test_banned_keyword_list.py
+index 54d8852e89..541a22a0fc 100644
+--- a/litellm/tests/test_banned_keyword_list.py
++++ b/litellm/tests/test_banned_keyword_list.py
+@@ -15,7 +15,7 @@ sys.path.insert(
+ )  # Adds the parent directory to the system path
+ import pytest
+ import litellm
+-from litellm.proxy.enterprise.enterprise_hooks.banned_keywords import (
++from enterprise.enterprise_hooks.banned_keywords import (
+     _ENTERPRISE_BannedKeywords,
+ )
+ from litellm import Router, mock_completion
+diff --git a/litellm/tests/test_blocked_user_list.py b/litellm/tests/test_blocked_user_list.py
+index 12b4ab2f72..fa44ddfce7 100644
+--- a/litellm/tests/test_blocked_user_list.py
++++ b/litellm/tests/test_blocked_user_list.py
+@@ -29,7 +29,7 @@ from litellm import Router, mock_completion
+ from litellm._logging import verbose_proxy_logger
+ from litellm.caching import DualCache
+ from litellm.proxy._types import UserAPIKeyAuth
+-from litellm.proxy.enterprise.enterprise_hooks.blocked_user_list import (
++from enterprise.enterprise_hooks.blocked_user_list import (
+     _ENTERPRISE_BlockedUserList,
+ )
+ from litellm.proxy.management_endpoints.internal_user_endpoints import (
+diff --git a/litellm/tests/test_lakera_ai_prompt_injection.py b/litellm/tests/test_lakera_ai_prompt_injection.py
+index 01829468c9..992c678293 100644
+--- a/litellm/tests/test_lakera_ai_prompt_injection.py
++++ b/litellm/tests/test_lakera_ai_prompt_injection.py
+@@ -27,7 +27,7 @@ import litellm
+ from litellm._logging import verbose_proxy_logger
+ from litellm.caching import DualCache
+ from litellm.proxy._types import UserAPIKeyAuth
+-from litellm.proxy.enterprise.enterprise_hooks.lakera_ai import (
++from enterprise.enterprise_hooks.lakera_ai import (
+     _ENTERPRISE_lakeraAI_Moderation,
+ )
+ from litellm.proxy.proxy_server import embeddings
+diff --git a/litellm/tests/test_llm_guard.py b/litellm/tests/test_llm_guard.py
+index 4775e065d9..767ea5ec7a 100644
+--- a/litellm/tests/test_llm_guard.py
++++ b/litellm/tests/test_llm_guard.py
+@@ -16,7 +16,7 @@ sys.path.insert(
+ )  # Adds the parent directory to the system path
+ import pytest
+ import litellm
+-from litellm.proxy.enterprise.enterprise_hooks.llm_guard import _ENTERPRISE_LLMGuard
++from enterprise.enterprise_hooks.llm_guard import _ENTERPRISE_LLMGuard
+ from litellm import Router, mock_completion
+ from litellm.proxy.utils import ProxyLogging, hash_token
+ from litellm.proxy._types import UserAPIKeyAuth
+diff --git a/litellm/tests/test_openai_moderations_hook.py b/litellm/tests/test_openai_moderations_hook.py
+index 745f188fc2..0bda8a8f66 100644
+--- a/litellm/tests/test_openai_moderations_hook.py
++++ b/litellm/tests/test_openai_moderations_hook.py
+@@ -16,7 +16,7 @@ sys.path.insert(
+ )  # Adds the parent directory to the system path
+ import pytest
+ import litellm
+-from litellm.proxy.enterprise.enterprise_hooks.openai_moderation import (
++from enterprise.enterprise_hooks.openai_moderation import (
+     _ENTERPRISE_OpenAI_Moderation,
+ )
+ from litellm import Router, mock_completion
+diff --git a/litellm/tests/test_proxy_reject_logging.py b/litellm/tests/test_proxy_reject_logging.py
+index d32f7783d4..ae7a4d4315 100644
+--- a/litellm/tests/test_proxy_reject_logging.py
++++ b/litellm/tests/test_proxy_reject_logging.py
+@@ -34,7 +34,7 @@ from litellm import Router, mock_completion
+ from litellm.caching import DualCache
+ from litellm.integrations.custom_logger import CustomLogger
+ from litellm.proxy._types import UserAPIKeyAuth
+-from litellm.proxy.enterprise.enterprise_hooks.secret_detection import (
++from enterprise.enterprise_hooks.secret_detection import (
+     _ENTERPRISE_SecretDetection,
+ )
+ from litellm.proxy.proxy_server import (
+diff --git a/litellm/tests/test_secret_detect_hook.py b/litellm/tests/test_secret_detect_hook.py
+index 2c20071646..7d5cf6e0db 100644
+--- a/litellm/tests/test_secret_detect_hook.py
++++ b/litellm/tests/test_secret_detect_hook.py
+@@ -29,7 +29,7 @@ from litellm import Router, mock_completion
+ from litellm.caching import DualCache
+ from litellm.integrations.custom_logger import CustomLogger
+ from litellm.proxy._types import UserAPIKeyAuth
+-from litellm.proxy.enterprise.enterprise_hooks.secret_detection import (
++from enterprise.enterprise_hooks.secret_detection import (
+     _ENTERPRISE_SecretDetection,
+ )
+ from litellm.proxy.proxy_server import chat_completion
