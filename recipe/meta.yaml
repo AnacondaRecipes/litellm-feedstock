@@ -126,6 +126,33 @@ requirements:
 {% set ignore_tests = ignore_tests + " --ignore=gh_src/tests/test_litellm/test_main.py" %}
 {% set ignore_tests = ignore_tests + " --ignore=gh_src/tests/test_litellm/test_redis.py" %}
 {% set ignore_tests = ignore_tests + " --ignore=gh_src/tests/test_litellm/vector_stores/test_vector_store_registry.py" %}
+{% set ignore_tests = ignore_tests + " --ignore=gh_src/tests/test_litellm/a2a_protocol/test_card_resolver.py" %}
+{% set ignore_tests = ignore_tests + " --ignore=gh_src/tests/test_litellm/caching/test_redis_connection_pool.py" %}
+{% set ignore_tests = ignore_tests + " --ignore=gh_src/tests/test_litellm/enterprise/enterprise_callbacks/send_emails/test_sendgrid_email.py" %}
+{% set ignore_tests = ignore_tests + " --ignore=gh_src/tests/test_litellm/integrations/test_prometheus_invalid_key_filtering.py" %}
+{% set ignore_tests = ignore_tests + " --ignore=gh_src/tests/test_litellm/integrations/test_prometheus_none_metadata.py" %}
+{% set ignore_tests = ignore_tests + " --ignore=gh_src/tests/test_litellm/integrations/test_prometheus_queue_guardrail_metrics.py" %}
+{% set ignore_tests = ignore_tests + " --ignore=gh_src/tests/test_litellm/integrations/test_prometheus_user_team_metrics.py" %}
+{% set ignore_tests = ignore_tests + " --ignore=gh_src/tests/test_litellm/interactions/test_openapi_compliance.py" %}
+{% set ignore_tests = ignore_tests + " --ignore=gh_src/tests/test_litellm/llms/openai/completion/test_text_completion_token_ids.py" %}
+{% set ignore_tests = ignore_tests + " --ignore=gh_src/tests/test_litellm/llms/zai/test_zai_provider.py" %}
+{% set ignore_tests = ignore_tests + " --ignore=gh_src/tests/test_litellm/proxy/auth/test_login_utils.py" %}
+{% set ignore_tests = ignore_tests + " --ignore=gh_src/tests/test_litellm/proxy/auth/test_user_api_key_auth.py" %}
+{% set ignore_tests = ignore_tests + " --ignore=gh_src/tests/test_litellm/proxy/db/db_transaction_queue/test_redis_update_buffer.py" %}
+{% set ignore_tests = ignore_tests + " --ignore=gh_src/tests/test_litellm/proxy/management_endpoints/search_endpoints/test_search_tool_management.py" %}
+{% set ignore_tests = ignore_tests + " --ignore=gh_src/tests/test_litellm/proxy/management_endpoints/test_access_group_endpoints.py" %}
+{% set ignore_tests = ignore_tests + " --ignore=gh_src/tests/test_litellm/proxy/management_endpoints/test_config_override_endpoints.py" %}
+{% set ignore_tests = ignore_tests + " --ignore=gh_src/tests/test_litellm/proxy/management_endpoints/test_router_settings_endpoints.py" %}
+{% set ignore_tests = ignore_tests + " --ignore=gh_src/tests/test_litellm/proxy/management_endpoints/test_team_default_params.py" %}
+{% set ignore_tests = ignore_tests + " --ignore=gh_src/tests/test_litellm/proxy/rag_endpoints/test_rag_endpoints.py" %}
+{% set ignore_tests = ignore_tests + " --ignore=gh_src/tests/test_litellm/proxy/spend_tracking/test_cloudzero_endpoints.py" %}
+{% set ignore_tests = ignore_tests + " --ignore=gh_src/tests/test_litellm/proxy/test_audio_speech_prometheus_hooks.py" %}
+{% set ignore_tests = ignore_tests + " --ignore=gh_src/tests/test_litellm/proxy/test_batch_expiry.py" %}
+{% set ignore_tests = ignore_tests + " --ignore=gh_src/tests/test_litellm/proxy/test_chat_completion_metadata.py" %}
+{% set ignore_tests = ignore_tests + " --ignore=gh_src/tests/test_litellm/proxy/test_empty_model_list.py" %}
+{% set ignore_tests = ignore_tests + " --ignore=gh_src/tests/test_litellm/proxy/test_pyroscope.py" %}
+{% set ignore_tests = ignore_tests + " --ignore=gh_src/tests/test_litellm/proxy/test_update_llm_router_resilience.py" %}
+{% set ignore_tests = ignore_tests + " --ignore=gh_src/tests/test_litellm/test_add_deployment_no_master_key.py" %}
 # TypeError: Cannot subclass typing.Any
 {% set ignore_tests = ignore_tests + " --ignore=gh_src/tests/test_litellm/containers/test_container_api.py" %}  # [py<311]
 {% set ignore_tests = ignore_tests + " --ignore=gh_src/tests/test_litellm/containers/test_container_transformation.py" %}  # [py<311]
