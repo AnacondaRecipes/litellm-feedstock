@@ -85,6 +85,7 @@ test:
     - litellm --help
   requires:
     - pip
+    - fastapi
 
 about:
   home: https://github.com/BerriAI/litellm
