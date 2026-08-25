@@ -1,26 +1,28 @@
 {% set name = "litellm" %}
-{% set version = "1.89.3" %}
+{% set version = "1.98.0" %}
 
+# Tests removed: almost all of them are skipped in the end because of dependencies we don't have like fastapi_sso and others.
 package:
   name: {{ name }}
   version: {{ version }}
 
 source:
   - url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-    sha256: 8fcdb2b7a0ef3381d41adf164443842e31ef9f0cd5bcda6fc3c0bd8bc2959510
+    sha256: 0e6ba5d645a73ca6d0ffb4e8ec539d94b6e8fad691f2a54c6819011e6d0de8bf
 
 build:
   number: 0
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   entry_points:
     - litellm = litellm:run_server
-  skip: true # [py<310 or py>313]
+  skip: true  # [py<310 or py>313]
 
 requirements:
   host:
     - pip
     - python
     - uv-build >=0.9.7
+    - maturin ==1.9.4
   run:
     - python
     - fastuuid >=0.14.0,<1.0
@@ -32,9 +34,11 @@ requirements:
     - tokenizers >=0.21.0,<1.0
     - click >=8.0.0,<9.0
     - jinja2 >=3.1.6,<4.0
-    - aiohttp >=3.10,<4.0
+    - aiohttp >=3.14.2,<4.0
     - pydantic >=2.10.0,<3.0.0
     - jsonschema >=4.0.0,<5.0
+    - pydantic-settings >=2.14.1,<3.0
+    - boto3 >=1.43.1,<2.0
   run_constrained:
     - gunicorn >=23.0.0,<24.0
     - uvicorn >=0.33.0,<1.0
@@ -48,25 +52,61 @@ requirements:
     - orjson >=3.11.6,<4.0
     - apscheduler >=3.11.2,<4.0
     - fastapi-sso >=0.19.0,<1.0
-    - PyJWT >=2.12.0,<3.0
+    - PyJWT >=2.13.0,<3.0
     - python-multipart >=0.0.27,<1.0
-    - cryptography >=46.0.7,<47.0
+    - cryptography >=49.0.0,<51.0
     - pynacl >=1.6.2,<2.0
     - websockets >=15.0.1,<16.0
     - boto3 >=1.43.1,<2.0
     - azure-identity >=1.25.2,<2.0
     - azure-storage-blob >=12.28.0,<13.0
-    - mcp >=1.26.0,<2.0
-    - litellm-proxy-extras ==0.4.74
-    - litellm-enterprise ==0.1.42
+    - mcp >=1.28.1,<2.0
+    - litellm-proxy-extras ==0.4.86
+    - litellm-enterprise ==0.1.56
     - RestrictedPython >=8.1,<9.0
     - rich >=13.9.4,<14.0
     - polars >=1.38.1,<2.0
     - soundfile >=0.12.1,<1.0
     - pyroscope-io >=0.8.16,<1.0  # [not win]
     - pydantic-settings >=2.14.1,<3.0
+    - diskcache >=5.6.3,<6.0
+    - requests >=2.32.0,<3.0
+    - InquirerPy >=0.3.4,<1.0
+    - prisma >=0.11.0,<1.0
+    - azure-keyvault-secrets >=4.10.0,<5.0
+    - google-cloud-kms >=2.24.2,<3.0
+    - google-cloud-iam >=2.19.1,<3.0
+    - resend >=2.23.0,<3.0
+    - redisvl >=0.4.1,<1.0
+    - a2a-sdk >=1.1.0,<2.0
+    - google-cloud-aiplatform >=1.133.0,<2.0
+    - grpcio ==1.78.0
+    - mlflow >=3.11.1,<4.0
+    - hiredis >=3.0.0,<4.0
+    - pysoundfile >=0.12.1
+    - expression >=5.6.0,<6.0
+    - google-genai >=1.37.0,<2.0
+    - anthropic >=0.84.0,<1.0
+    - prometheus-client >=0.20.0,<1.0
+    - langfuse >=2.59.7,<3.0
+    - opentelemetry-api ==1.28.0
+    - opentelemetry-sdk ==1.28.0
+    - opentelemetry-exporter-otlp ==1.28.0
+    - opentelemetry-instrumentation-fastapi ==0.49b0
+    - ddtrace >=4.8.2,<5.0
+    - sentry-sdk >=2.21.0,<3.0
+    - mangum >=0.17.0,<1.0
+    - azure-ai-contentsafety >=1.0.0,<2.0
+    - azure-storage-file-datalake >=12.20.0,<13.0
+    - pypdf >=6.12.0,<7.0
+    - llm-sandbox >=0.3.39,<1.0
+    - detect-secrets >=1.5.0,<2.0
+    - python3-saml >=1.16.0,<2.0
+    - nvidia-riva-client >=2.15.0
+    - audioread >=3.0.1
+    - numpy >=1.26.0
+    - numpydoc >=1.8.0,<2.0
 
-# Tests removed: almost all of them are skipped in the end because of dependencies we don't have like fastapi_sso and others.
 test:
   imports:
     - litellm
