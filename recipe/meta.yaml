@@ -108,7 +108,7 @@ requirements:
     - sentry-sdk >=2.21.0,<3.0
     - azure-storage-file-datalake >=12.20.0,<13.0
     - pypdf >=6.16.1,<7.0
-    
+
 
 # Tests removed: almost all of them are skipped in the end because of dependencies we don't have like fastapi_sso and others.
 test:
@@ -120,14 +120,14 @@ test:
   commands:
     - pip check
     - litellm --help
-    - lite --help
-    - litellm-proxy --help
+    # reuired inquirerpy which is not in main
+    # - lite --help
+    # - litellm-proxy --help
     - python -c "import litellm.rust_bridge._native"
   requires:
     - pip
     - fastapi
     - orjson
-    - inquirerpy >=0.3.4,<1.0
 
 about:
   home: https://github.com/BerriAI/litellm
