@@ -127,6 +127,7 @@ test:
     - pip
     - fastapi
     - orjson
+    - inquirerpy >=0.3.4,<1.0
 
 about:
   home: https://github.com/BerriAI/litellm
