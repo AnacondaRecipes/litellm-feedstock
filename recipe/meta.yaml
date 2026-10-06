@@ -17,6 +17,8 @@ build:
     - cargo-bundle-licenses --format yaml --output THIRDPARTY.yml
   entry_points:
     - litellm = litellm:run_server
+    - lite = litellm.proxy.client.cli:cli
+    - litellm-proxy = litellm.proxy.client.cli:litellm_proxy_cli
   skip: true # [py<310 or py>314]
 
 requirements:
@@ -118,6 +120,8 @@ test:
   commands:
     - pip check
     - litellm --help
+    - lite --help
+    - litellm-proxy --help
     - python -c "import litellm.rust_bridge._native"
   requires:
     - pip
